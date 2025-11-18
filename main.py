@@ -30,7 +30,25 @@ def capture_photo(gain: float, exposure: float, file_name: str, height: int, wid
     """
 
     # open camera and set parameters (within bounds of camera specifications)
+    if gain > 18.0:
+        gain = 18.0
+        print ("Gain entered was outside of max range and has been set to max")
+    elif gain < 0.0:
+        gain = 0.0
+        print("Gain entered was outside of min range and has been set to min")
 
+    if exposure > 999000.0:
+        exposure = 999000.0
+        print("Exposure entered was outside of max range and has been set to max")
+    elif exposure < 0.0:
+        exposure = 0.0
+        print("Exposure entered was outside of min range and has been set to min")
+    if height + y_offset > 1026:
+        print ("Offset and current height are outside of max range. Offset has been set to max given current height")
+        y_offset = 1026 - height
+    if width + x_offset > 1282:
+        print("Offset and current width are outside of max range. Offset has been set to max given current width")
+        x_offset = 1282 - width
     camera.Open()
     camera.Gain.SetValue(gain)
     camera.ExposureTime.SetValue(exposure)
@@ -80,7 +98,41 @@ def capture_video(gain: float, exposure_time: float, file_name: str, seconds: in
         
     """
 
-    #set parameters
+    #set parameters if within bounds and corrects if outside of mix/max
+    if gain > 18.0:
+        gain = 18.0
+        print("Gain entered was outside of max range and has been set to max")
+    elif gain < 0.0:
+        gain = 0.0
+        print("Gain entered was outside of min range and has been set to min")
+
+    if exposure_time > 999000.0:
+        exposure = 999000.0
+        print("Exposure entered was outside of max range and has been set to max")
+    elif exposure_time < 0.0:
+        exposure = 0.0
+        print("Exposure entered was outside of min range and has been set to min")
+
+    if height > 1026:
+        height = 1026
+        print("Height entered was outside of max range and has been set to max")
+    elif height < 1:
+        height = 1
+        print("Height entered was outside of min range and has been set to min")
+
+    if width > 1282:
+        width = 1282
+        print("Width entered was outside of max range and has been set to max")
+    elif width < 1:
+        width = 1
+        print("Width entered was outside of min range and has been set to min")
+    if height + y_offset > 1026:
+        print ("Offset and current height are outside of max range. Offset has been set to max given current height")
+        y_offset = 1026 - height
+    if width + x_offset > 1282:
+        print("Offset and current width are outside of max range. Offset has been set to max given current width")
+        x_offset = 1282 - width
+
     camera.Gain.SetValue(gain)
     camera.ExposureTime.SetValue(exposure_time)
     camera.Height.SetValue(height)
@@ -135,7 +187,7 @@ def capture_video(gain: float, exposure_time: float, file_name: str, seconds: in
 
 
 
-capture_video(5.0, 10000.0, "test_video2", 5, 60,30,1282,100, 0)
+capture_video(5.0, 10000.0, "test_video2", 5, 60,30,1200,100, 100)
 #time.sleep(5)
 #capture_photo(5.0, 10000.0, "test_image", 50,200,30,30)
 
